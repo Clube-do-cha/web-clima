@@ -9,10 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\Botao.cs" />
     <Compile Remove="landing.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Components\Botao.razor" />
     <Content Remove="landing.cshtml" />
   </ItemGroup>
 
@@ -22,6 +24,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
   </ItemGroup>
 
 </Project>

@@ -7,15 +7,11 @@ namespace web_clima.Models
     {
         [Required]
         [StringLength(100)]
-        public string UserName { get; set; }
+        public string FullName { get; set; }
 
         [Required]
         [StringLength(50)]
         public string UserLogin { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string UserPassword { get; set; }
 
         [StringLength(100)]
         public string UserCity { get; set; }

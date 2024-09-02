@@ -1,7 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-
+using web_clima.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,15 +18,15 @@ namespace web_clima.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly SignInManager<UserModel> _signInManager;
+        private readonly UserManager<UserModel> _userManager;
+        private readonly IUserStore<UserModel> _userStore;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<UserModel> userManager,
+            IUserStore<UserModel> userStore,
+            SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
@@ -105,16 +105,16 @@ namespace web_clima.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private UserModel CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<UserModel>();
             }
             catch
             {
-                throw new InvalidOperationException($"Não é possível criar uma instância de '{nameof(IdentityUser)}'. " +
-                    $"Certifique-se de que '{nameof(IdentityUser)}' não é uma classe abstrata e tem um construtor sem parâmetros, ou alternativamente " +
+                throw new InvalidOperationException($"Não é possível criar uma instância de '{nameof(UserModel)}'. " +
+                    $"Certifique-se de que '{nameof(UserModel)}' não é uma classe abstrata e tem um construtor sem parâmetros, ou alternativamente " +
                     $"substitua a página de registro em /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }

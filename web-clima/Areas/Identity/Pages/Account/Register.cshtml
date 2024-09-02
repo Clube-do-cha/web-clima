@@ -1,47 +1,59 @@
 ﻿@page
-@model RegisterModel
+@model web_clima.Models.RegisterView
 @{
     ViewData["Title"] = "Cadastro de Usuário";
 }
 
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <!-- Centralizar o card -->
-        <!-- Card azul envolvendo o formulário -->
         <div class="card border-primary mb-3">
             <h1 class="card-header bg-primary text-white">Cadastro</h1>
             <div class="card-body">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <form id="registerForm" asp-controller="Register" asp-action="Register" method="post">
                     <h2 class="card-title">Crie uma nova conta.</h2>
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
                     <!-- Nome Completo -->
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.FullName" class="form-control" aria-required="true" placeholder="Digite seu nome completo" />
-                        <label asp-for="Input.FullName">Nome Completo</label>
-                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        <input asp-for="FullName" class="form-control" aria-required="true" placeholder="Digite seu nome completo" />
+                        <label asp-for="FullName">Nome Completo</label>
+                        <span asp-validation-for="FullName" class="text-danger"></span>
                     </div>
 
                     <!-- Login -->
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Login" class="form-control" aria-required="true" placeholder="Digite seu login" />
-                        <label asp-for="Input.Login">Login</label>
-                        <span asp-validation-for="Input.Login" class="text-danger"></span>
+                        <input asp-for="UserLogin" class="form-control" aria-required="true" placeholder="Digite seu login" />
+                        <label asp-for="UserLogin">Login</label>
+                        <span asp-validation-for="UserLogin" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-floating mb-3">
+                        <input asp-for="Email" class="form-control" aria-required="true" placeholder="Digite seu email" />
+                        <label asp-for="Email">Email</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <!-- Senha -->
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Digite sua senha" />
-                        <label asp-for="Input.Password">Senha</label>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Digite sua senha" />
+                        <label asp-for="Password">Senha</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <!-- Confirmar Senha -->
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirme sua senha" />
-                        <label asp-for="Input.ConfirmPassword">Confirmar Senha</label>
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirme sua senha" />
+                        <label asp-for="ConfirmPassword">Confirmar Senha</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <!-- Cidade -->
+                    <div class="form-floating mb-3">
+                        <input asp-for="UserCity" class="form-control" aria-required="true" placeholder="Digite sua cidade" />
+                        <label asp-for="UserCity">Cidade</label>
+                        <span asp-validation-for="UserCity" class="text-danger"></span>
                     </div>
 
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrar</button>

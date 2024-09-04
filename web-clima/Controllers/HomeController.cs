@@ -15,7 +15,7 @@ namespace web_clima.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(); // Garante que a view Index.cshtml será usada
         }
 
         public IActionResult Privacy()

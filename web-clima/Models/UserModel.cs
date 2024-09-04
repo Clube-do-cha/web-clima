@@ -7,7 +7,7 @@ namespace web_clima.Models
     {
         [Required]
         [StringLength(100)]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = "Default Name"; // Valor padrão
 
         [Required]
         [StringLength(50)]
@@ -16,6 +16,6 @@ namespace web_clima.Models
         [StringLength(100)]
         public string UserCity { get; set; }
 
-        public byte[] UserProfilePic { get; set; }
+        public byte[]? UserProfilePic { get; set; } // Tornar a propriedade nula se for opcional
     }
 }

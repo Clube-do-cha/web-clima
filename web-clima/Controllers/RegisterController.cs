@@ -30,7 +30,8 @@ namespace web_clima.Controllers
             {
                 var user = new UserModel
                 {
-                    UserName = model.FullName,
+                    UserName = model.UserLogin, // UserName deve ser igual ao UserLogin
+                    FullName = model.FullName,
                     UserLogin = model.UserLogin,
                     Email = model.Email,
                     UserCity = model.UserCity
@@ -40,18 +41,19 @@ namespace web_clima.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Sinaliza o usuário e redireciona para a página de perfil
                     await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    // Redirecionar para a página de perfil do usuário
-                    return RedirectToAction("Profile", "Account");
+                    return RedirectToAction("Profile", "Account"); // Certifique-se de que o método Profile existe em AccountController
                 }
 
+                // Adiciona os erros ao modelo
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
+            // Retorna a view com o modelo caso haja falhas de validação
             return View(model);
         }
     }

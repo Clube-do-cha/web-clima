@@ -1,0 +1,22 @@
+﻿@model web_clima.Models.UserModel
+
+@{
+    ViewData["Title"] = "Perfil do Usuário";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p><strong>Nome Completo:</strong> @Model.FullName</p>
+<p><strong>Cidade:</strong> @Model.UserCity</p>
+<p><strong>Email:</strong> @Model.Email</p>
+<p><strong>Login:</strong> @Model.UserName</p>
+
+<p><strong>Foto de Perfil:</strong></p>
+
+@if (Model.UserProfilePic != null && Model.UserProfilePic.Length > 0)
+{
+    <img src="data:image/png;base64,@Convert.ToBase64String(Model.UserProfilePic)" alt="Foto de Perfil" />
+}
+else
+{
+    <p>Foto de perfil não disponível.</p>
+}

@@ -1,106 +1,129 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using web_clima.Models;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
-namespace web_clima.Areas.Identity.Pages.Account
+public class LoginModel : PageModel
 {
-    public class LoginModel : PageModel
+    private readonly SignInManager<UserModel> _signInManager;
+    private readonly ILogger<LoginModel> _logger;
+    private readonly UserManager<UserModel> _userManager;
+
+    public LoginModel(
+        SignInManager<UserModel> signInManager,
+        ILogger<LoginModel> logger,
+        UserManager<UserModel> userManager)
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        _signInManager = signInManager;
+        _logger = logger;
+        _userManager = userManager;
+    }
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+    [BindProperty]
+    public InputModel Input { get; set; }
+
+    public string ReturnUrl { get; set; }
+
+    [TempData]
+    public string ErrorMessage { get; set; }
+
+    public class InputModel
+    {
+        [Required]
+        [Display(Name = "Login")]
+        public string Login { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+    }
+
+    public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+    {
+        if (!string.IsNullOrEmpty(ErrorMessage))
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            ModelState.AddModelError(string.Empty, ErrorMessage);
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        returnUrl ??= Url.Content("~/");
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        // Sign out any existing external cookies
+        await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        public string ReturnUrl { get; set; }
+        ReturnUrl = returnUrl;
+        return Page();
+    }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    {
+        returnUrl ??= Url.Content("~/");
 
-        public class InputModel
+        if (ModelState.IsValid)
         {
-            [Required]
-            [Display(Name = "Login")]
-            public string Login { get; set; }
+            _logger.LogInformation("Attempting login for user: {Login}", Input.Login);
 
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
+            // Find the user by login
+            var user = await _userManager.FindByNameAsync(Input.Login);
 
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
-        }
-
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            if (!string.IsNullOrEmpty(ErrorMessage))
+            if (user != null)
             {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
-            }
+                // Retrieve the stored password hash
+                var storedHash = user.PasswordHash;
 
-            returnUrl ??= Url.Content("~/");
-
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            ReturnUrl = returnUrl;
-        }
-
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
-            returnUrl ??= Url.Content("~/");
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(Input.Login, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                // Manually verify the provided password with the stored hash
+                if (VerifyPasswordHash(Input.Password, storedHash))
                 {
-                    _logger.LogInformation("User logged in.");
+                    // Sign in the user
+                    await _signInManager.SignInAsync(user, Input.RememberMe);
+
+                    _logger.LogInformation("User logged in: {Login}", Input.Login);
                     return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
+                    _logger.LogWarning("Invalid login attempt: {Login}", Input.Login);
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
                 }
             }
+            else
+            {
+                _logger.LogWarning("User not found: {Login}", Input.Login);
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            }
+        }
+        else
+        {
+            _logger.LogWarning("Model state is invalid.");
+        }
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+        // If we got this far, something failed, redisplay the form
+        return Page();
+    }
+
+    private bool VerifyPasswordHash(string password, string storedHash)
+    {
+        try
+        {
+            // Instantiate PasswordHasher
+            var hasher = new PasswordHasher<UserModel>();
+
+            // Verify the provided password against the stored hash
+            var result = hasher.VerifyHashedPassword(null, storedHash, password);
+
+            return result == PasswordVerificationResult.Success;
+        }
+        catch
+        {
+            _logger.LogError("Error verifying password hash.");
+            return false;
         }
     }
 }

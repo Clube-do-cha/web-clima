@@ -4,13 +4,80 @@
     ViewData["Title"] = "Cadastro de Usuário";
 }
 
-<div class="row">
-    <div class="col-md-6 offset-md-3">
+<!-- Estilos personalizados -->
+<style>
+    body {
+        background-image: url('https://www.ultraimagehub.com/wallpapers/tr:flp-false,gx-0.8,gy-1,q-75,rh-3264,rw-5824,th-1080,tw-1920/1242067533750861916.jpeg');
+        background-size: cover;
+        background-position: center;
+        color: #f1f1f1; /* Branco suave */
+    }
+
+    /* Diminuindo a largura do formulário */
+    .col-md-6 {
+        max-width: 400px;
+    }
+
+    /* Fundo semi-transparente para o card */
+    .card-body {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #f1f1f1; /* Branco suave */
+    }
+
+    /* Definindo o fundo do botão como azul claro */
+    .btn-primary {
+        background-color: #5bc0de; /* Azul claro */
+        border-color: #5bc0de;
+        width: 200px; /* Largura do botão */
+        margin: 0 auto; /* Centralizando o botão */
+    }
+
+        .btn-primary:hover {
+            background-color: #4aa7c8; /* Azul claro mais escuro no hover */
+            border-color: #4aa7c8;
+        }
+
+    /* Estilos do formulário */
+    .form-control {
+        background-color: transparent;
+        color: #f1f1f1; /* Branco suave */
+    }
+
+    .form-floating label {
+        color: #f1f1f1; /* Branco suave */
+    }
+
+    /* Placeholder cinza por padrão e cinza mais escuro ao focar */
+    .form-control::placeholder {
+        color: #b0b0b0; /* Cinza claro */
+    }
+
+    .form-control:focus::placeholder {
+        color: #888888; /* Cinza mais escuro quando o input está em foco */
+    }
+
+    .text-danger {
+        color: #ff6666 !important;
+    }
+
+    /* Tornar os links brancos */
+    a {
+        color: #f1f1f1; /* Branco suave */
+    }
+
+        a:hover {
+            color: #d1d1d1; /* Branco um pouco mais escuro no hover */
+        }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <!-- Card envolvendo o formulário -->
         <div class="card border-primary mb-3">
-            <h1 class="card-header bg-primary text-white">Cadastro</h1>
+            <h1 class="card-header bg-primary text-white text-center">Cadastro</h1>
             <div class="card-body">
                 <form id="registerForm" asp-controller="Register" asp-action="Register" method="post">
-                    <h2 class="card-title">Crie uma nova conta.</h2>
+                    <h2 class="card-title text-center">Crie uma nova conta.</h2>
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
@@ -56,7 +123,10 @@
                         <span asp-validation-for="UserCity" class="text-danger"></span>
                     </div>
 
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrar</button>
+                    <!-- Botão de Registro -->
+                    <div class="d-grid">
+                        <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg">Registrar</button>
+                    </div>
                 </form>
             </div>
         </div>

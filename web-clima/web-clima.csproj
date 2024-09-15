@@ -12,6 +12,8 @@
 		<Compile Remove="Components\Botao.cs" />
 		<Compile Remove="landing.cshtml.cs" />
 		<Compile Remove="Models\Class.cs" />
+		<Compile Remove="Controllers\RegisterController.cs" />
+		<Compile Remove="Models\RegisterModel.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

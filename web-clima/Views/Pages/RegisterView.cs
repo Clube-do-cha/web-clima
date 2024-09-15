@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace web_clima.Models
+namespace web_clima.Views.Pages
 {
     public class RegisterView
     {
         [Required]
         [Display(Name = "Nome Completo")]
         public string FullName { get; set; }  // Renomeado para corresponder ao modelo UserModel
-
-        [Required]
-        [Display(Name = "Login")]
-        public string UserLogin { get; set; }
 
         [Required]
         [EmailAddress]
@@ -27,9 +23,5 @@ namespace web_clima.Models
         [Display(Name = "Confirmar Senha")]
         [Compare("Password", ErrorMessage = "A senha e a confirmação da senha não coincidem.")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Cidade")]
-        public string UserCity { get; set; }
     }
 }

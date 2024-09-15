@@ -8,35 +8,27 @@ using web_clima.Models;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
-public class LoginModel : PageModel
+public class LoginModel(
+    SignInManager<UserModel> signInManager,
+    ILogger<LoginModel> logger,
+    UserManager<UserModel> userManager)
+    : PageModel
 {
-    private readonly SignInManager<UserModel> _signInManager;
-    private readonly ILogger<LoginModel> _logger;
-    private readonly UserManager<UserModel> _userManager;
-
-    public LoginModel(
-        SignInManager<UserModel> signInManager,
-        ILogger<LoginModel> logger,
-        UserManager<UserModel> userManager)
-    {
-        _signInManager = signInManager;
-        _logger = logger;
-        _userManager = userManager;
-    }
+    private readonly UserManager<UserModel> _userManager = userManager;
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public required InputModel Input { get; set; }
 
-    public string ReturnUrl { get; set; }
+    public required string ReturnUrl { get; set; }
 
     [TempData]
-    public string ErrorMessage { get; set; }
+    public required string ErrorMessage { get; set; }
 
     public class InputModel
     {
         [Required]
-        [Display(Name = "Login")]
-        public string Login { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -68,62 +60,22 @@ public class LoginModel : PageModel
 
         if (ModelState.IsValid)
         {
-            _logger.LogInformation("Attempting login for user: {Login}", Input.Login);
+            logger.LogInformation("Tentando logar usuário com e-mail: {Email}", Input.Email);
 
-            // Find the user by login
-            var user = await _userManager.FindByNameAsync(Input.Login);
+            // Find the user by e-mail
+            var result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe,
+                lockoutOnFailure: false);
 
-            if (user != null)
+            if (result.Succeeded)
             {
-                // Retrieve the stored password hash
-                var storedHash = user.PasswordHash;
-
-                // Manually verify the provided password with the stored hash
-                if (VerifyPasswordHash(Input.Password, storedHash))
-                {
-                    // Sign in the user
-                    await _signInManager.SignInAsync(user, Input.RememberMe);
-
-                    _logger.LogInformation("User logged in: {Login}", Input.Login);
-                    return LocalRedirect(returnUrl);
-                }
-                else
-                {
-                    _logger.LogWarning("Invalid login attempt: {Login}", Input.Login);
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
-            }
-            else
-            {
-                _logger.LogWarning("User not found: {Login}", Input.Login);
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                logger.LogInformation("User logged in: {Email}", Input.Email);
+                return LocalRedirect(returnUrl);
             }
         }
-        else
-        {
-            _logger.LogWarning("Model state is invalid.");
-        }
+        
+        logger.LogWarning("Invalid login attempt for: {Email}", Input.Email);
+        ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
 
-        // If we got this far, something failed, redisplay the form
         return Page();
-    }
-
-    private bool VerifyPasswordHash(string password, string storedHash)
-    {
-        try
-        {
-            // Instantiate PasswordHasher
-            var hasher = new PasswordHasher<UserModel>();
-
-            // Verify the provided password against the stored hash
-            var result = hasher.VerifyHashedPassword(null, storedHash, password);
-
-            return result == PasswordVerificationResult.Success;
-        }
-        catch
-        {
-            _logger.LogError("Error verifying password hash.");
-            return false;
-        }
     }
 }

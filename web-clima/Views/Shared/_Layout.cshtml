@@ -14,42 +14,37 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <!-- Card roxo com texto branco -->
-                <div class="card bg-purple text-white">
-                    <div class="card-body">
-                        <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">web_clima</a>
-                    </div>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <!-- Adicione a classe ms-auto para alinhar à direita -->
-                    <div class="ms-auto">
-                        <partial name="_LoginPartial" />
-                    </div>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <!-- Card roxo com texto branco -->
+            <div class="card-title bg-purple rounded-1" style="padding: 1vh">
+                    <a class="text-decoration-none text-center text-white" asp-area="" asp-controller="Home" asp-action="Index">WebClima</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <!-- Adicione a classe ms-auto para alinhar à direita -->
+                <div class="ms-auto">
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - web_clima - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    </nav>
+</header>
+    <div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+    </div>
+<footer class="border-top footer fixed-bottom">
+    <p class="text-center text-muted">&copy; 2024 - WebClima - <a class="nav-link" style="display: inline; padding: 0" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></p>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

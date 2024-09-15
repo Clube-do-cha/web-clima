@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using web_clima.Models;
-using System.Threading.Tasks;
+using web_clima.Views.Pages;
+
+namespace web_clima.Models;
 
 public class RegisterModel : PageModel
 {
@@ -36,8 +37,6 @@ public class RegisterModel : PageModel
             Email = Input.Email,
             // Adicionar outros campos necessários
             FullName = Input.FullName, // Adicionado para corresponder ao modelo UserModel
-            UserLogin = Input.UserLogin,
-            UserCity = Input.UserCity
         };
 
         var result = await _userManager.CreateAsync(user, Input.Password);

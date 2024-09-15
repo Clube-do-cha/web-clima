@@ -22,7 +22,7 @@ builder.Services.AddDefaultIdentity<UserModel>(options =>
     options.Lockout.MaxFailedAccessAttempts = 0; // Disables lockout after failed attempts
     options.Lockout.AllowedForNewUsers = false; // Disables lockout for new users
 
-    options.SignIn.RequireConfirmedAccount = true; // Require confirmed account for sign-in
+    options.SignIn.RequireConfirmedAccount = false; // Require confirmed account for sign-in
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 

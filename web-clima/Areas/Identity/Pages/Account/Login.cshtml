@@ -8,12 +8,8 @@
 <!-- Estilos personalizados -->
 <style>
     body {
-        background-image: url('/assets/background-image.jpeg');
-        background-size: cover;
-        background-position: center;
         color: #f1f1f1; /* Branco suave */
     }
-
 
     /* Diminuindo a largura do formulário */
     .col-md-6 {
@@ -44,10 +40,6 @@
         color: #f1f1f1; /* Branco suave */
     }
 
-    .form-floating label {
-        color: #f1f1f1; /* Branco suave */
-    }
-
     .text-danger {
         color: #ff6666 !important;
     }
@@ -70,38 +62,42 @@
     .form-control:focus::placeholder {
         color: #888888; /* Cinza mais escuro quando o input está em foco */
     }
+    
+    .form-padding {
+        padding: .5vw;
+    }
 
+    .bg-purple {
+        background-color: #6f42c1; /* Cor roxa */
+    }
 </style>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
         <!-- Card envolvendo o formulário -->
-        <div class="card border-primary mb-3">
-            <h1 class="card-header bg-primary text-white text-center">Login</h1>
+        <div class="card border-primary mb-3 ">
+            <h1 class="card-header bg-purple text-white text-center">Login</h1>
             <div class="card-body">
                 <form id="account" method="post">
                     <h2 class="card-title text-center">Acesse a sua conta.</h2>
                     <hr />
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
                     <!-- Campo de Login -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Login" class="form-control" aria-required="true" placeholder="Digite seu login" />
-                        <label asp-for="Input.Login">Login</label>
-                        <span asp-validation-for="Input.Login" class="text-danger"></span>
+                    <div class="mb-3">
+                        <input asp-for="Input.Email" class="form-control form-padding" aria-required="true" placeholder="Digite seu login"/>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 
                     <!-- Campo de Senha -->
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Digite sua senha" />
-                        <label asp-for="Input.Password">Senha</label>
+                    <div class="mb-3">
+                        <input asp-for="Input.Password" class="form-control form-padding" autocomplete="current-password" aria-required="true" placeholder="Digite sua senha" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
 
                     <!-- Lembrar-me -->
                     <div class="form-check mb-3">
                         <input class="form-check-input" asp-for="Input.RememberMe" />
-                        <label class="form-check-label" asp-for="Input.RememberMe">Lembrar-me</label>
+                        <label class="form-check-label" asp-for="Input.RememberMe">Me mantenha logado</label>
                     </div>
 
                     <!-- Botão de Login -->
@@ -111,13 +107,9 @@
 
                     <div class="mt-3">
                         <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Esqueceu a senha?</a>
-                        </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrar um novo usuário</a>
-                        </p>
-                        <p>
-                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar email de confirmação</a>
+                            <a id="forgot-password" asp-page="./ForgotPassword">Esqueceu a senha?</a><br/>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrar um novo usuário</a><br/>
+                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar e-mail de confirmação</a><br/>
                         </p>
                     </div>
                 </form>

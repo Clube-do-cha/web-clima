@@ -1,18 +1,13 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-using web_clima.Models;
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using web_clima.Models;
 
 namespace web_clima.Areas.Identity.Pages.Account
 {
@@ -21,6 +16,7 @@ namespace web_clima.Areas.Identity.Pages.Account
         private readonly SignInManager<UserModel> _signInManager;
         private readonly UserManager<UserModel> _userManager;
         private readonly IUserStore<UserModel> _userStore;
+        private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
@@ -31,6 +27,7 @@ namespace web_clima.Areas.Identity.Pages.Account
         {
             _userManager = userManager;
             _userStore = userStore;
+            _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -48,13 +45,10 @@ namespace web_clima.Areas.Identity.Pages.Account
             [Display(Name = "Nome Completo")]
             public string FullName { get; set; }
 
-            [Required]
-            [Display(Name = "Nome de Usuário")]
-            public string UserName { get; set; }
-
-            [Required]
-            [Display(Name = "Login")]
-            public string Login { get; set; }
+            [Required] 
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "A senha deve ter no mínimo {2} e no máximo {1} caracteres.", MinimumLength = 6)]
@@ -77,28 +71,26 @@ namespace web_clima.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return Page();
+            var user = CreateUser();
+
+            
+            await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+            user.FullName = Input.FullName;
+            
+            var result = await _userManager.CreateAsync(user, Input.Password);
+
+            if (result.Succeeded)
             {
-                var user = CreateUser();
+                _logger.LogInformation("Usuário criou uma nova conta com senha.");
 
-                user.UserName = Input.UserName; // Set the username
-                // Add custom logic to set additional properties if needed
-                // e.g., user.FullName = Input.FullName;
-
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("Usuário criou uma nova conta com senha.");
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
             // Se chegarmos até aqui, algo falhou, redisplay o formulário
@@ -117,6 +109,15 @@ namespace web_clima.Areas.Identity.Pages.Account
                     $"Certifique-se de que '{nameof(UserModel)}' não é uma classe abstrata e tem um construtor sem parâmetros, ou alternativamente " +
                     $"substitua a página de registro em /Areas/Identity/Pages/Account/Register.cshtml");
             }
+        }
+        
+        private IUserEmailStore<UserModel> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("É necessário um gerenciador de usuário que suporte e-mails para usar esta página.");
+            }
+            return (IUserEmailStore<UserModel>)_userStore;
         }
     }
 }

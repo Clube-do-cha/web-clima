@@ -27,6 +27,7 @@ builder.Services.AddDefaultIdentity<UserModel>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
 
 builder.Logging.AddConsole();
 

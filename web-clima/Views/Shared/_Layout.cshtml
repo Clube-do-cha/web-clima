@@ -19,7 +19,17 @@
         <div class="container-fluid">
             <!-- Card roxo com texto branco -->
             <div class="card-title bg-purple rounded-1" style="padding: 1vh">
-                    <a class="text-decoration-none text-center text-white" asp-area="" asp-controller="Home" asp-action="Index">WebClima</a>
+                <!-- Verifica se o usuário está autenticado -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Se o usuário estiver logado, redireciona para o Dashboard -->
+                        <a class="text-decoration-none text-center text-white" asp-area="" asp-controller="Dashboard" asp-action="Index">WebClima</a>
+                    }
+                    else
+                    {
+                        <!-- Se não estiver logado, redireciona para a página Home -->
+                        <a class="text-decoration-none text-center text-white" asp-area="" asp-controller="Home" asp-action="Index">WebClima</a>
+                    }
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +46,7 @@
 </header>
     <div class="container">
     <main role="main" class="pb-3">
-        @RenderBody()
+            @RenderBody()
     </main>
     </div>
 <footer class="border-top footer fixed-bottom">
@@ -45,6 +55,6 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

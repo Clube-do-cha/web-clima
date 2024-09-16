@@ -2,11 +2,27 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bem-vindo!</h1>
-    <p>
-        Faça <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Login</a> ou
-        <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Registre-se</a>
-        para acessar o sistema.
-    </p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+    <div class="background-loaded"></div>
+
+    <div class="text-center">
+        <h1 class="display-4 text-light">Bem-vindo!</h1>
+        <p>
+            Faça <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Login</a> ou
+            <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Registre-se</a>
+            para acessar o sistema.
+        </p>
+    </div>
+
+</body>
+</html>

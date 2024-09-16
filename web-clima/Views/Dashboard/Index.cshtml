@@ -3,33 +3,68 @@
     ViewData["Title"] = "Home - Pós Login";
 }
 
-<div class="container mt-4">
-    <h1>Previsão do tempo</h1>
-    <p>Pesquise o clima de qualquer cidade!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body>
 
-    <form method="post" asp-action="GetWeather">
-        <div class="form-group">
-            <input type="text" class="form-control" name="city" placeholder="Digite o nome da cidade" required />
-        </div>
-        <button type="submit" class="btn btn-primary mt-4">Buscar</button>
-    </form>
+    <div class="background-loaded"></div>
 
-    @if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger mt-4">
-            @ViewBag.Error
-        </div>
+    <div class="container mt-4 form-container">
+        <h1>Previsão do Tempo</h1>
+        <p>Pesquise o clima de qualquer cidade!</p>
+
+        <form method="post" asp-action="GetWeather" class="mt-4">
+            <div class="form-group">
+                <input type="text" class="form-control" name="city" placeholder="Digite o nome da cidade" required />
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Buscar</button>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger mt-4">
+                @ViewBag.Error
+            </div>
+        }
+
+        @if (Model != null)
+        {
+            <div class="mt-4">
+                <h2>Previsão para @Model.Name</h2>
+                <ul>
+                    <li><strong>Temperatura:</strong> @Model.Main.Temp °C</li>
+                    <li><strong>Umidade:</strong> @Model.Main.Humidity %</li>
+                    <li><strong>Vento:</strong> @Model.Wind.Speed m/s</li>
+                </ul>
+            </div>
+        }
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Cria um elemento de imagem para pré-carregar o fundo
+                var img = new Image();
+                img.src = '/assets/background-image.jpeg'; // Caminho para a sua imagem de fundo
+
+                img.onload = function () {
+                    // Remove a sobreposição e adiciona a classe para aplicar o fundo real após o carregamento
+                    document.querySelector('.overlay').classList.add('hidden');
+                    document.querySelector('.background-loaded').classList.add('background-loaded');
+                };
+
+                img.onerror = function () {
+                    console.error('Erro ao carregar a imagem de fundo.');
+                };
+            });
+        </script>
     }
-
-    @if (Model != null)
-    {
-        <div class="mt-4">
-            <h2>Previsão para @Model.Name</h2>
-            <ul>
-                <li><strong>Temperatura:</strong> @Model.Main.Temp °C</li>
-                <li><strong>Umidade:</strong> @Model.Main.Humidity %</li>
-                <li><strong>Vento:</strong> @Model.Wind.Speed m/s</li>
-            </ul>
-        </div>
-    }
-</div>
+</body>
+</html>

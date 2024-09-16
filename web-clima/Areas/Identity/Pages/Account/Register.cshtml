@@ -5,120 +5,74 @@
     ViewData["Title"] = "Cadastro de Usuário";
 }
 
-<!-- Estilos personalizados -->
-<style>
-    body {
-        color: #f1f1f1; /* Branco suave */
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body>
 
-    /* Diminuindo a largura do formulário */
-    .col-md-6 {
-        max-width: 400px;
-    }
+    <div class="background-loaded"></div>
 
-    /* Fundo semi-transparente para o card */
-    .card-body {
-        background: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
-        backdrop-filter: blur(20px); /* Efeito de desfoque */
-        -webkit-backdrop-filter: blur(20px); /* Efeito de desfoque para Safari */
-        color: #f9f9f9; /* Branco suave */
-        border: 1px solid rgba(255, 255, 255, 0.2); /* Borda branca semi-transparente */
-    }
+    <div class="form-container">
+        <h1>@ViewData["Title"]</h1>
+        <h2>Crie uma nova conta.</h2>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-    /* Definindo o fundo do botão como azul claro */
-    .btn-primary {
-        background-color: #6f42c1;
-        border-color: #6f42c1;
-        margin: 0 auto; /* Centralizando o botão */
-    }
-
-    .btn-primary:hover {
-        background-color: #5a2fa8;
-        border-color: #5a2fa8;
-    }
-
-    /* Estilos do formulário */
-    .form-control{
-        background-color: transparent;
-        color: #f1f1f1; /* Branco suave */
-    }
-
-    /* Placeholder cinza por padrão e cinza mais escuro ao focar */
-    .form-control::placeholder {
-        color: #b0b0b0; /* Cinza claro */
-    }
-
-    .form-control:focus::placeholder {
-        color: #888888; /* Cinza mais escuro quando o input está em foco */
-    }
-
-    .text-danger {
-        color: #ff6666 !important;
-    }
-
-    /* Tornar os links brancos */
-    a {
-        color: #f1f1f1; /* Branco suave */
-    }
-
-        a:hover {
-            color: #d1d1d1; /* Branco um pouco mais escuro no hover */
-        }
-
-    .form-padding {
-        padding: .5vw;
-    }
-
-    .bg-purple {
-        background-color: #6f42c1; /* Cor roxa */
-    }
-</style>
-
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <!-- Card envolvendo o formulário -->
-        <div class="card border-primary mb-3">
-            <h1 class="card-header bg-purple text-white text-center">Cadastro</h1>
-            <div class="card-body">
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h2 class="card-title text-center">Crie uma nova conta.</h2>
-                    <hr />
-                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-                    <!-- Nome Completo -->
-                    <div class="mb-3">
-                        <input asp-for="Input.FullName" class="form-control form-padding" aria-required="true" placeholder="Digite seu nome completo" />
-                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="mb-3">
-                        <input asp-for="Input.Email" class="form-control form-padding" aria-required="true" placeholder="Digite seu email" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-
-                    <!-- Senha -->
-                    <div class="mb-3">
-                        <input asp-for="Input.Password" class="form-control form-padding" autocomplete="new-password" aria-required="true" placeholder="Digite sua senha" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-
-                    <!-- Confirmar Senha -->
-                    <div class="mb-3">
-                        <input asp-for="Input.ConfirmPassword" class="form-control form-padding" autocomplete="new-password" aria-required="true" placeholder="Confirme sua senha" />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-                    <!-- Botão de Registro -->
-                    <div class="d-grid">
-                        <button id="registerSubmit" type="submit" class="btn btn-primary btn-lg">Registrar</button>
-                    </div>
-                </form>
+            <!-- Nome Completo -->
+            <div class="mb-3">
+                <input asp-for="Input.FullName" class="form-control" aria-required="true" placeholder="Digite seu nome completo" />
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
             </div>
-        </div>
-    </div>
-</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+            <!-- Email -->
+            <div class="mb-3">
+                <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="Digite seu email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <!-- Senha -->
+            <div class="mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Digite sua senha" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <!-- Confirmar Senha -->
+            <div class="mb-3">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirme sua senha" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <!-- Botão de Registro -->
+            <div class="d-grid">
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Cria um elemento de imagem para pré-carregar o fundo
+                var img = new Image();
+                img.src = '/assets/background-image.jpeg'; // Caminho para a sua imagem de fundo
+
+                img.onload = function () {
+                    // Remove a sobreposição e adiciona a classe para aplicar o fundo real após o carregamento
+                    document.querySelector('.overlay').classList.add('hidden');
+                    document.querySelector('.background-loaded').classList.add('background-loaded');
+                };
+
+                img.onerror = function () {
+                    console.error('Erro ao carregar a imagem de fundo.');
+                };
+            });
+        </script>
+    }
+</body>
+</html>

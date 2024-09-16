@@ -1,0 +1,35 @@
+﻿@model web_clima.Controllers.WeatherResponse
+@{
+    ViewData["Title"] = "Home - Pós Login";
+}
+
+<div class="container mt-4">
+    <h1>Previsão do tempo</h1>
+    <p>Pesquise o clima de qualquer cidade!</p>
+
+    <form method="post" asp-action="GetWeather">
+        <div class="form-group">
+            <input type="text" class="form-control" name="city" placeholder="Digite o nome da cidade" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger mt-4">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (Model != null)
+    {
+        <div class="mt-4">
+            <h2>Previsão para @Model.Name</h2>
+            <ul>
+                <li><strong>Temperatura:</strong> @Model.Main.Temp °C</li>
+                <li><strong>Umidade:</strong> @Model.Main.Humidity %</li>
+                <li><strong>Vento:</strong> @Model.Wind.Speed m/s</li>
+            </ul>
+        </div>
+    }
+</div>

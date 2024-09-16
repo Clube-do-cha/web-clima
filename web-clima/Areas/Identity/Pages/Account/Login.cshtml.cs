@@ -54,9 +54,10 @@ public class LoginModel(
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-    {
-        returnUrl ??= Url.Content("~/");
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
+            // Define o redirecionamento padrão para o Dashboard
+            returnUrl ??= Url.Content("~/Dashboard/Index");
 
         if (ModelState.IsValid)
         {

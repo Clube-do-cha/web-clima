@@ -1,12 +1,17 @@
+/* Estilos existentes */
+
 html, body {
     height: 100%;
     margin: 0;
 }
 
 body {
+    padding-top: 60px; /* Ajuste conforme a altura do seu cabeçalho */
     color: white;
     font-family: Arial, sans-serif;
-    overflow: hidden;
+    overflow: auto; /* Permite a rolagem do corpo da página */
+    position: relative;
+    min-height: 100vh; /* Garante que o corpo tenha pelo menos a altura da janela de visualização */
 }
 
 .overlay {
@@ -31,13 +36,21 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 100vh;
-    position: absolute;
+    position: fixed; /* Fixar a imagem de fundo */
     top: 0;
     left: 0;
     width: 100%;
-    z-index: -1;
+    height: 100%;
+    z-index: -1; /* Colocar a imagem atrás de todo o conteúdo */
 }
+
+.content-wrapper {
+    position: relative;
+    z-index: 1; /* Garantir que o conteúdo fique acima do fundo */
+    padding: 20px; /* Espaçamento interno */
+}
+
+/* Manter os estilos dos cards e outros elementos */
 
 .form-container {
     background-color: rgba(30, 30, 30, 0.9);
@@ -87,7 +100,7 @@ h1 {
 footer {
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
-    padding: 10px 0;
+    padding: 5px 0;
     color: white;
     position: relative;
     bottom: 0;
@@ -113,15 +126,69 @@ html {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
     margin-bottom: 60px;
 }
 
 .bg-purple {
     background-color: #6f42c1; /* Cor roxa */
+}
+
+/* Novos estilos adicionados */
+.main-card {
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo cinza semi-transparente */
+    padding: 2rem; /* Espaçamento interno do card */
+    border-radius: 8px; /* Arredonda os cantos do card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra do card */
+}
+
+.info-card {
+    background-color: #007bff; /* Fundo azul */
+    color: white; /* Cor do texto como branco */
+    padding: 2rem; /* Espaçamento interno do card */
+    border-radius: 8px; /* Arredonda os cantos do card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra do card */
+    margin-bottom: 1rem; /* Espaçamento inferior do card */
+}
+
+.info-card-small {
+    background-color: #17a2b8; /* Fundo azul-escuro */
+    color: white; /* Cor do texto como branco */
+    padding: 1rem; /* Espaçamento interno do card */
+    border-radius: 8px; /* Arredonda os cantos do card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra do card */
+}
+
+/* index.css */
+.carousel-container {
+    max-width: 100%; /* Ajusta a largura máxima do carrossel */
+    margin: 0 auto; /* Centraliza o carrossel horizontalmente */
+}
+
+.carousel-inner .carousel-item {
+    height: 400px; /* Define a altura desejada do carrossel */
+}
+
+.carousel-img {
+    height: 100%; /* Faz com que a imagem ocupe toda a altura do item do carrossel */
+    object-fit: cover; /* Garante que a imagem cubra a área do carrossel sem distorção */
+}
+
+/* Adaptação para Responsividade */
+@media (max-width: 768px) {
+    .main-card {
+        padding: 1rem; /* Ajusta o padding para telas menores */
+    }
+
+    .carousel-inner .carousel-item {
+        height: 200px; /* Ajusta a altura do carrossel em telas menores */
+    }
+
+    .info-card, .info-card-small {
+        padding: 1rem; /* Ajusta o padding dos cards para telas menores */
+    }
+
+    .container {
+        padding: 0 1rem; /* Ajusta o padding do container para telas menores */
+    }
 }

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace web_clima.Controllers
 {
-    [Authorize] 
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -16,13 +14,13 @@ namespace web_clima.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-       
+
         public IActionResult Index()
         {
             return View();
         }
 
-    
+
         [HttpPost]
         public async Task<IActionResult> GetWeather(string city)
         {
@@ -33,13 +31,24 @@ namespace web_clima.Controllers
             }
 
             var client = _httpClientFactory.CreateClient();
-            var apiKey = "b719f314b22e648c40b319b0a1c8e7a5"; 
+            var apiKey = "b719f314b22e648c40b319b0a1c8e7a5";
             var response = await client.GetAsync($"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric");
 
             if (response.IsSuccessStatusCode)
             {
                 var weatherData = await response.Content.ReadAsStringAsync();
                 var weather = JsonConvert.DeserializeObject<WeatherResponse>(weatherData);
+
+                // Aplicar o arredondamento na temperatura
+                if (weather.Main.Temp % 1 >= 0.5)
+                {
+                    weather.Main.Temp = (float)Math.Ceiling(weather.Main.Temp); // Arredonda para cima
+                }
+                else
+                {
+                    weather.Main.Temp = (float)Math.Floor(weather.Main.Temp); // Arredonda para baixo
+                }
+
                 return View("Index", weather);
             }
             else

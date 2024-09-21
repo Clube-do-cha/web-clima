@@ -1,6 +1,80 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Política de Privacidade";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .form-container {
+            background-color: rgba(30, 30, 30, 0.9); /* Cor de fundo */
+            padding: 80px; /* Aumentado o preenchimento interno */
+            border-radius: 10px; /* Bordas arredondadas */
+            width: 90%; /* Usando 90% da largura da tela */
+            max-width: 1000px; /* Largura máxima para grandes telas */
+            margin: 100px auto; /* Margem para centralizar */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra */
+            text-align: center; /* Centraliza texto */
+        }
+
+        h1 {
+            color: #00bcd4; /* Cor do título principal */
+            font-size: 2.5rem; /* Tamanho da fonte maior */
+            margin-bottom: 40px; /* Aumentado o espaço abaixo do título */
+        }
+
+        h2 {
+            color: #ffffff; /* Cor do subtítulo */
+            font-size: 2rem; /* Tamanho do subtítulo */
+            margin-bottom: 15px; /* Espaço abaixo do subtítulo */
+        }
+
+        h3 {
+            color: #00bcd4; /* Cor dos subtítulos */
+            font-size: 1.5rem; /* Tamanho dos subtítulos */
+            margin-top: 20px; /* Espaço acima dos subtítulos */
+            margin-bottom: 10px; /* Espaço abaixo dos subtítulos */
+        }
+
+        p {
+            color: #ffffff; /* Cor do texto dos parágrafos */
+            font-size: 1rem; /* Tamanho padrão do texto */
+            line-height: 1.6; /* Espaçamento entre linhas */
+            margin-bottom: 15px; /* Espaço abaixo dos parágrafos */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-loaded"></div>
+
+    <div class="form-container">
+        <h1>@ViewData["Title"]</h1>
+
+        <div class="mt-4">
+            <h3>Informações Coletadas</h3>
+            <p>Coletamos informações básicas, como a cidade digitada para obter a previsão do tempo. Não coletamos dados pessoais identificáveis.</p>
+
+            <h3>Uso das Informações</h3>
+            <p>As informações coletadas são usadas exclusivamente para fornecer previsões. Não compartilhamos esses dados com terceiros.</p>
+
+            <h3>Cookies</h3>
+            <p>Usamos cookies essenciais para o funcionamento do site, mas não rastreamos ou coletamos informações para publicidade.</p>
+
+            <h3>Segurança</h3>
+            <p>Implementamos medidas de segurança para proteger os dados, mas não podemos garantir segurança total na transmissão de informações pela Internet.</p>
+
+            <h3>Contato</h3>
+            <p>Para dúvidas sobre esta política, entre em contato pelo e-mail <a href="mailto:contato@seusite.com">Clube-do-cha420@gmail.com</a>.</p>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>

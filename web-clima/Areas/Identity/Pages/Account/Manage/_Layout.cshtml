@@ -1,0 +1,81 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background-image: linear-gradient(to bottom right, #1a1a1a, #333333); /* Gradiente de fundo */
+            color: #ffffff; /* Cor padrão do texto */
+            height: 100vh; /* Altura total da tela */
+            margin: 0; /* Remove margens padrão */
+            display: flex; /* Flexbox para centralizar o contêiner */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .form-container {
+            background-color: rgba(30, 30, 30, 0.9); /* Cor de fundo do contêiner */
+            padding: 40px; /* Preenchimento interno */
+            border-radius: 10px; /* Bordas arredondadas */
+            width: 90%; /* Usando 90% da largura */
+            max-width: 800px; /* Largura máxima para grandes telas */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra */
+            text-align: center; /* Centraliza texto */
+        }
+
+        h1 {
+            color: #00bcd4; /* Cor do título principal */
+            font-size: 2.5rem; /* Tamanho maior */
+            margin-bottom: 20px; /* Espaço abaixo do título */
+        }
+
+        h2 {
+            color: #ffffff; /* Cor do subtítulo */
+            font-size: 2rem; /* Tamanho do subtítulo */
+            margin-bottom: 15px; /* Espaço abaixo do subtítulo */
+        }
+
+        hr {
+            border-color: #00bcd4; /* Cor da linha horizontal */
+            margin: 20px 0; /* Margem para cima e para baixo */
+        }
+
+        .row {
+            text-align: left; /* Alinha textos à esquerda dentro do contêiner */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Alterar as configurações da sua conta</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @RenderSection("Scripts", required: false)
+    }
+</body>
+</html>

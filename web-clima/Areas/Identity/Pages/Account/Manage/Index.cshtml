@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Alterar Informações";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="background-loaded"></div>
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div class="form-group mb-3">
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FullName" class="form-control" placeholder="Por favor, insira seu nome completo." />
+                <label asp-for="Input.FullName" class="form-label"></label>
+                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Por favor, insira seu número de telefone." />
+                <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Salvar</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h4>Informações do usuário</h4> <!-- Título adicionado aqui -->
+        <p><strong>Nome Completo:</strong> @Model.FullName</p>
+        <p><strong>E-mail:</strong> @Model.Email</p>
+        <p><strong>Número de Telefone:</strong> @Model.Input.PhoneNumber</p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

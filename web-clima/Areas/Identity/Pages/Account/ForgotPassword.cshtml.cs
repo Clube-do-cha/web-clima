@@ -62,7 +62,7 @@ namespace web_clima.Areas.Identity.Pages.Account
             await _emailSender.SendEmailAsync(
                 Input.Email,
                 "Reset Password",
-                $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                $"Redefina sua senha em <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.");
 
             return RedirectToPage("./ForgotPasswordConfirmation");
         }
